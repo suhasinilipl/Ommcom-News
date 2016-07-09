@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "852459365497",
+    "project_id": "ommcom-news"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852459365497:android:04b15f93d1d6cdc5",
+        "android_client_info": {
+          "package_name": "com.lipl.ommcom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852459365497-sfj8oirl0t8rl0gpki0qg86pf0n5aj0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lipl.ommcom",
+            "certificate_hash": "ED6842D95FF98F350A6674FFA418D31820DF0B60"
+          }
+        },
+        {
+          "client_id": "852459365497-gj86asa64a02ms2jstnb7dn3d0qfgl6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO6fY8WTGSgb7MKcILVblV-So-db_lukc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

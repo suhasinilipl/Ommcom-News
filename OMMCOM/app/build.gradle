@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.lipl.ommcom"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        // Enabling multidex support.
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+    maven {
+        url  "http://dl.bintray.com/lukaville/maven"
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile files('libs/universal-image-loader-1.9.5.jar')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.jcodecraeer:xrecyclerview:1.2.7'
+    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.commonsware.cwac:anddown:0.2.4'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.github.iammert:FastGCM:1.2'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+    compile files('libs/socialauth-android-3.2.jar')
+    compile 'com.github.quentin7b:android-location-tracker:3.2'
+    compile files('libs/socialauth-4.12.jar')
+    compile files('libs/httpcore-4.0.1.jar')
+    compile 'com.pubnub:pubnub-android:3.7.10'
+    compile 'com.google.apis:google-api-services-customsearch:v1-rev51-1.22.0'
+}
+apply plugin: 'com.google.gms.google-services'
