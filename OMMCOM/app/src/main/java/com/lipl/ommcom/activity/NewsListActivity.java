@@ -65,6 +65,7 @@ public class NewsListActivity extends AppCompatActivity
     private String top_news_video_file_path = "";
     private String top_news_image_file_path = "";
     private PopupAdvertisement popupAdvertisement;
+    private int pagination_count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,8 +184,19 @@ public class NewsListActivity extends AppCompatActivity
 
         mAdapter = new NewsListAdapter(mNewsList, NewsListActivity.this, NewsListActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLoadingMoreEnabled(false);
+        mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setRefreshing(false);
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+                getData();
+            }
+        });
 
         setToolBar();
     }
@@ -264,13 +276,27 @@ public class NewsListActivity extends AppCompatActivity
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 pBar.setVisibility(View.INVISIBLE);
-                if(popupAdvertisement != null) {
-                    RelativeLayout relativeTopParent = (RelativeLayout) findViewById(R.id.relativeTopParent);
-                    RelativeLayout layoutRParent = (RelativeLayout) findViewById(R.id.layoutRParent);
-                    layoutRParent.setVisibility(View.VISIBLE);
-                    Util.showPopUpAdvertisement(NewsListActivity.this, popupAdvertisement, relativeTopParent, layoutRParent);
+
+                RelativeLayout relativeTopParent = (RelativeLayout) findViewById(R.id.relativeTopParent);
+                RelativeLayout layoutRParent = (RelativeLayout) findViewById(R.id.layoutRParent);
+
+                if(pagination_count == 1) {
+                    if(popupAdvertisement != null) {
+                        Util.showPopUpAdvertisement(NewsListActivity.this, popupAdvertisement, relativeTopParent, layoutRParent);
+                        layoutRParent.setVisibility(View.VISIBLE);
+                    }
+                    updateView();
+                } else {
+                    layoutRParent.setVisibility(View.GONE);
+                    if(mRecyclerView != null &&  mRecyclerView.getAdapter() != null) {
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                    }
                 }
-                updateView();
+                pagination_count++;
+
+                if(mRecyclerView != null){
+                    mRecyclerView.loadMoreComplete();
+                }
             }
 
             @Override
@@ -279,7 +305,13 @@ public class NewsListActivity extends AppCompatActivity
                 int resCode = -1;
 
                 try {
-                    String link = Config.API_BASE_URL + Config.TOP_NEWS_LIST_API;
+                    String link = "";
+                    if(pagination_count > 1){
+                        link = Config.API_BASE_URL + "/posts/nextTopNews" + "?page=" + pagination_count;
+                    } else{
+                        link = Config.API_BASE_URL + Config.TOP_NEWS_LIST_API;
+                    }
+
                     URL url = new URL(link);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setReadTimeout(10000);

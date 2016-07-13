@@ -192,7 +192,7 @@ public class CJFlipAdapter extends BaseAdapter implements BaseSliderView.OnSlide
                         && file_maps.get(name).getIs_video().trim().equalsIgnoreCase("1")) {
                     String[] io = file_maps.get(name).getFile_link().split("\\.");
                     if (io != null && io.length > 0) {
-                        img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_NEWS
+                        img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_CITIZEN_NEWS
                                 + Config.FOLDER_VIDEO
                                 + "/" + io[0] + ".jpg";
                         show_play = true;
@@ -202,13 +202,13 @@ public class CJFlipAdapter extends BaseAdapter implements BaseSliderView.OnSlide
                         && file_maps.get(name).getIs_audio().trim().equalsIgnoreCase("1")) {
                     String[] io = file_maps.get(name).getFile_link().split("\\.");
                     if (io != null && io.length > 0) {
-                        img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_NEWS
+                        img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_CITIZEN_NEWS
                                 + Config.FOLDER_VIDEO
                                 + "/" + io[0] + ".jpg";
                         show_play = true;
                     }
                 } else{
-                    img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_NEWS +
+                    img_file = Config.IMAGE_DOWNLOAD_BASE_URL + Config.FOLDER_CITIZEN_NEWS +
                             Config.getFolderForDP() + file_maps.get(name).getFile_link();
                     show_play = false;
                 }

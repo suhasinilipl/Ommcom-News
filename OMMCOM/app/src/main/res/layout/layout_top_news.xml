@@ -20,7 +20,8 @@
                 android:id="@+id/imgTopImg1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"/>
 
                 <include layout="@layout/gradient"/>
             </RelativeLayout>
@@ -35,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="1dp"
+                android:scaleType="fitXY"
                 android:adjustViewBounds="true"/>
 
                 <include layout="@layout/gradient"/>
@@ -48,6 +50,7 @@
                 android:id="@+id/imgTopImg3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 android:adjustViewBounds="true"/>
                 <include layout="@layout/gradient"/>
             </RelativeLayout>

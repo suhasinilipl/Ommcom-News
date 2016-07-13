@@ -12,6 +12,8 @@
     <string name="twitter_consumer_key">Bnrsv48ZWcr7dA8R80Y4l9mzf</string>
     <string name="twitter_consumer_secret_key">TA88j3gudvqrfAPmLFDeFwGWrszN3I7NvMW7a9n5n7rAWo1mTR</string>
 
+    <string name="custom_search_google_key">AIzaSyBO6fY8WTGSgb7MKcILVblV-So-db_lukc</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

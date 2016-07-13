@@ -156,17 +156,10 @@ public class HomeActivity extends AppCompatActivity
         }
         CustomTextView tvBreakingNewsNo = (CustomTextView) findViewById(R.id.tvBreakingNewsNo);
         tvBreakingNewsNo.setVisibility(View.GONE);
-        setupToolbar();
         loadAllData();
-        RelativeLayout layoutLogoImg = (RelativeLayout) findViewById(R.id.layoutLogoImg);
-        if(isFromNotification == false){
-            init();
-            intro();
-            layoutLogoImg.setVisibility(View.VISIBLE);
-        } else {
-            layoutLogoImg.setVisibility(View.GONE);
-        }
-
+        setupToolbar();
+        init();
+        intro();
         GCMManager.getInstance(this).registerListener(this);
         String breaking_news_notifiction_key = getSharedPreferences(Config.SHARED_PREFERENCE_KEY, 1)
                 .getString(Config.SP_BREAKING_NEWS_KEY, "No News in preference");
@@ -1228,10 +1221,10 @@ public class HomeActivity extends AppCompatActivity
 
         RelativeLayout layoutDebate = new RelativeLayout(HomeActivity.this);
         int height_layout_conference = (int)(Util.getScreenHeight() * LAYOUT_WEIGHT_CONFERENCE);
-        //RelativeLayout.LayoutParams layout_params_conference = new RelativeLayout.LayoutParams
-                //(RelativeLayout.LayoutParams.MATCH_PARENT, height_layout_conference);
         RelativeLayout.LayoutParams layout_params_conference = new RelativeLayout.LayoutParams
-                (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                (RelativeLayout.LayoutParams.MATCH_PARENT, height_layout_conference);
+        //RelativeLayout.LayoutParams layout_params_conference = new RelativeLayout.LayoutParams
+          //      (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutDebate.setLayoutParams(layout_params_conference);
         View view_debate = LayoutInflater.from(HomeActivity.this).inflate(R.layout.layout_conference, null);
         layoutDebate.addView(view_debate);

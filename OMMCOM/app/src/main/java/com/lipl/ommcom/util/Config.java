@@ -11,9 +11,9 @@ public class Config {
     public static final String VERSION_ONE = "/v0.1";
     public static final String VERSION = VERSION_ONE;
 
-    private static final String LOCAL = "192.168.1.127/ommcom";//"192.168.1.115:8000";
+    private static final String LOCAL = "192.168.1.113/ommcom";//"192.168.1.115:8000";
     private static final String PUBLIC = "ommcomnews.com" ;//"45.114.50.54";
-    public static final String DOMAIN = "http://"+ LOCAL + "/public";
+    public static final String DOMAIN = "http://"+ PUBLIC + "/public";
 
     public static final String API_BASE_URL = DOMAIN + "/api" +VERSION;
     public static final String IMAGE_DOWNLOAD_BASE_URL = DOMAIN + "/file";

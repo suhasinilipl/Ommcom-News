@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class MyAppService extends Service {
                                     builder.setTicker("Ommcom News");
                                     builder.setContentTitle("Breaking News");
                                     builder.setContentText(text);
-                                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                                    builder.setSmallIcon(getNotificationIcon());
                                     builder.setContentIntent(pendingIntent);
                                     builder.setOngoing(true);
                                     //builder.setSubText(message);   //API level 16
@@ -182,11 +183,10 @@ public class MyAppService extends Service {
         builder.setTicker("Ommcom News");
         builder.setContentTitle("Ommcom News");
         builder.setContentText(text);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(getNotificationIcon());
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(true);
         //builder.setSubText(message);   //API level 16
-        builder.setNumber(100);
         builder.build();
 
         Notification myNotication = builder.getNotification();
@@ -197,5 +197,10 @@ public class MyAppService extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private int getNotificationIcon() {
+        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return useWhiteIcon ? R.mipmap.ic_small : R.mipmap.ic_launcher;
     }
 }

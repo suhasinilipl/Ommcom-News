@@ -58,5 +58,6 @@ dependencies {
     compile files('libs/httpcore-4.0.1.jar')
     compile 'com.pubnub:pubnub-android:3.7.10'
     compile 'com.google.apis:google-api-services-customsearch:v1-rev51-1.22.0'
+    compile 'com.google.android.gms:play-services:9.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

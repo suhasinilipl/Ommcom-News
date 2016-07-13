@@ -31,9 +31,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,11 +52,13 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.ShareVideo;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.plus.PlusShare;
 import com.lipl.ommcom.R;
 import com.lipl.ommcom.adapter.FlipAdapter;
 import com.lipl.ommcom.fliputil.FlipViewController;
 import com.lipl.ommcom.pojo.Comment;
 import com.lipl.ommcom.pojo.FImageListItem;
+import com.lipl.ommcom.pojo.Item;
 import com.lipl.ommcom.pojo.News;
 import com.lipl.ommcom.pojo.NewsDetailsForFlipModel;
 import com.lipl.ommcom.pojo.NewsImage;
@@ -857,7 +862,9 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if(callbackManager != null) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void shareInTwitter(String link){
@@ -868,6 +875,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
     private ProgressDialog pd;
 
     private void initSocialAdapter(String link) {
+        callbackManager = null;
         // Utils.isOnline method check the internet connection
         if (Utils.isOnline(getApplicationContext())) {
             // Initialize the socialAuthAdapter with ResponseListener
@@ -887,19 +895,29 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
         }
     }
 
-    private void initSocialAdapterForGooglePlus(String link) {
-        if (Utils.isOnline(getApplicationContext())) {
-            pd = ProgressDialog.show(NewsDetailsActivity.this, null, null);
-            socialAuthAdapter = new SocialAuthAdapter(new ResponseListener(
-                    null,
-                    link));
-            socialAuthAdapter.addProvider(SocialAuthAdapter.Provider.GOOGLEPLUS, R.drawable.googleplus);
-            socialAuthAdapter.authorize(NewsDetailsActivity.this, SocialAuthAdapter.Provider.GOOGLEPLUS);
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "Check your internet connection..", Toast.LENGTH_LONG)
-                    .show();
-        }
+    private void initSocialAdapterForGooglePlus(String title, String link) {
+
+        callbackManager = null;
+        Toast.makeText(this, "start share process", Toast.LENGTH_SHORT).show();
+        Intent shareIntent = new PlusShare.Builder(NewsDetailsActivity.this)
+                .setType("text/plain")
+                .setText(title)
+                .setContentUrl(Uri.parse(link))
+                .getIntent();
+        startActivityForResult(shareIntent, 0);
+
+//        if (Utils.isOnline(getApplicationContext())) {
+//            pd = ProgressDialog.show(NewsDetailsActivity.this, null, null);
+//            socialAuthAdapter = new SocialAuthAdapter(new ResponseListener(
+//                    null,
+//                    link));
+//            socialAuthAdapter.addProvider(SocialAuthAdapter.Provider.GOOGLEPLUS, R.drawable.googleplus);
+//            socialAuthAdapter.authorize(NewsDetailsActivity.this, SocialAuthAdapter.Provider.GOOGLEPLUS);
+//        } else {
+//            Toast.makeText(getApplicationContext(),
+//                    "Check your internet connection..", Toast.LENGTH_LONG)
+//                    .show();
+//        }
     }
 
     private CallbackManager callbackManager;
@@ -1041,7 +1059,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
     }
 
     private void showAlertForShare(final String link, final String description, final String title) {
-        CharSequence colors[] = new CharSequence[]{"Facebook", "Twitter", "Google Plus", "Whats App", "Others"};
+       /* CharSequence colors[] = new CharSequence[]{"Facebook", "Twitter", "Google Plus", "Whats App", "Others"};
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder
                 (this);
@@ -1059,7 +1077,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
                         shareInTwitter(link);
                         break;
                     case 2:
-                        initSocialAdapterForGooglePlus(link);
+                        initSocialAdapterForGooglePlus(title, link);
                         break;
                     case 3:
                         onClickWhatsApp(link);
@@ -1088,7 +1106,77 @@ public class NewsDetailsActivity extends AppCompatActivity implements FlipAdapte
                 }
             }
         });
-        builder.show();
+        builder.show();*/
+
+
+        final Item[] items = {
+                new Item("Facebook", R.mipmap.facebook),
+                new Item("Twitter", R.mipmap.twitter),
+                new Item("Google Plus", R.mipmap.google_plus),
+                new Item("Whats App", R.mipmap.whatsup),
+                new Item("Others", R.mipmap.other)
+        };
+
+        ListAdapter adapter = new ArrayAdapter<Item>(
+                this,
+                android.R.layout.select_dialog_item,
+                android.R.id.text1,
+                items){
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+
+                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+
+                int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                tv.setCompoundDrawablePadding(dp5);
+
+                return v;
+            }
+        };
+
+
+        new AlertDialog.Builder(this)
+                .setTitle("Share Using")
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        switch (item) {
+                            case 0:
+                                initSocialAdapterForFacebook(link, description, title);
+                                break;
+                            case 1:
+                                shareInTwitter(link);
+                                break;
+                            case 2:
+                                initSocialAdapterForGooglePlus(title, link);
+                                break;
+                            case 3:
+                                onClickWhatsApp(link);
+                                break;
+                            case 4:
+                                if (news == null || news.getSlug() == null || news.getSlug().trim().length() <= 0) {
+                                    return;
+                                }
+                                if (link == null || link.trim().length() <= 0) {
+                                    return;
+                                }
+                                String link_share = news.getShort_description() + "\n" + link;
+                                if (link_share == null || link_share.trim().length() <= 0) {
+                                    return;
+                                }
+                                String img_url = Util.getImageFilePathForNews(news, null);
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("text/plain");
+                                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                                share.putExtra(Intent.EXTRA_SUBJECT, "OMMCOM");
+                                share.putExtra(Intent.EXTRA_TEXT, link_share);
+                                startActivity(Intent.createChooser(share, "Share link!"));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
     }
 
     @Override

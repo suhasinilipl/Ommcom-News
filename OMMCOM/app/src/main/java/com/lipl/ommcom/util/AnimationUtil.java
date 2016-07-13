@@ -68,6 +68,17 @@ public class AnimationUtil {
         return animator;
     }
 
+    public static ObjectAnimator zoomOutBK(View v, long duration, long delay){
+        PropertyValuesHolder propx = PropertyValuesHolder.ofFloat(View.SCALE_X, 0);
+        PropertyValuesHolder propy = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0);
+
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(v, propx, propy);
+        animator.setStartDelay(delay);
+        animator.setDuration(duration);
+        animator.start();
+        return animator;
+    }
+
     /**
      * View will slide in from top given duration with given time delay
      * */
@@ -105,8 +116,17 @@ public class AnimationUtil {
      * View will slide in from left given duration with given time delay
      * */
     public static ObjectAnimator slideInFromLeft(View v, long duration, long delay){
-        v.setTranslationX(-800);
+        v.setTranslationX(-(Util.getScreenWidth()));
         ObjectAnimator animator = ObjectAnimator.ofFloat(v,View.TRANSLATION_X,0);
+        animator.setStartDelay(delay);
+        animator.setDuration(duration);
+        animator.start();
+        return animator;
+    }
+
+    public static ObjectAnimator slideInFromLeftBK(View v, long duration, long delay){
+        v.setTranslationX(0);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(v,View.TRANSLATION_X,(Util.getScreenWidth()));
         animator.setStartDelay(delay);
         animator.setDuration(duration);
         animator.start();
@@ -117,13 +137,22 @@ public class AnimationUtil {
      * View will slide in from right given duration with given time delay
      * */
     public static ObjectAnimator slideInFromRight(View v, long duration, long delay){
-        v.setTranslationX(800);
+        v.setTranslationX((Util.getScreenWidth()));
         ObjectAnimator animator = ObjectAnimator.ofFloat(v,View.TRANSLATION_X,0);
         animator.setStartDelay(delay);
         animator.setDuration(duration);
         animator.start();
         return animator;
 
+    }
+
+    public static ObjectAnimator slideInFromRightBK(View v, long duration, long delay){
+        v.setTranslationX(0);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(v,View.TRANSLATION_X,-(Util.getScreenWidth()));
+        animator.setStartDelay(delay);
+        animator.setDuration(duration);
+        animator.start();
+        return animator;
     }
 
     /**
